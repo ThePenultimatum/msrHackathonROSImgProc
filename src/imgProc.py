@@ -7,14 +7,22 @@ a = cv2.VideoCapture(-1)
 
 
 
-def contoursOnPicture(img):
-    colorMinThresh = [0, 0, 150]
-    colorMaxThresh = [50, 50, 255]
+def contoursOnPicture(img, color):
+    if color == "r":
+        colorMinThresh = [0, 0, 150]
+        colorMaxThresh = [100, 100, 255]
+    elif color == "g":
+        colorMinThresh = [0, 150, 0]
+        colorMaxThresh = [50, 255, 50]
+    elif color == "b":
+        colorMinThresh = [120, 50, 50]
+        colorMaxThresh = [255, 100, 100]
 
-    print img
     # Our operations on the frame come here
     #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     red = cv2.inRange(img, np.array(colorMinThresh), np.array(colorMaxThresh))
+
+    print red
 
     newRed = cv2.medianBlur(red, 11)
     #newRed = cv2.bilateralFilter(red, 10, 5, 10)
@@ -40,8 +48,8 @@ def contoursOnPicture(img):
 while(True):
     # Capture frame-by-frame
     ret, frame = a.read()
-    print frame
-    contoursOnPicture(frame)
+    print frame[0:20,0:20]
+    contoursOnPicture(frame, "r")
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
